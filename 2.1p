@@ -1,0 +1,53 @@
+
+//LED Pin..
+int LED1 = D7;
+
+void setup() {
+    pinMode(LED1, output);
+}
+void blinkShort() {
+    
+    digitalWrite(LED1, high);
+    delay(1000);
+    digitalWrite(LED1, low)
+    delay(1000);
+}
+void blinkLong() {
+    digitalWrite(LED1, high);
+    delay(2000);
+    digitalWrite(LED1, low)
+    delay(1000);
+}
+
+void loop() {
+    
+    //S = . . .
+    blinkShort();
+    blinkShort();
+    blinkShort();
+    delay(1000);
+    //H = . . . .
+    blinkShort();
+    blinkShort();
+    blinkShort();
+    blinkShort();
+    delay(1000);
+    //A = . -
+    blinkShort();
+    blinkLong();
+    delay(1000);
+    //I = . .
+    blinkShort();
+    blinkShort();
+    delay(1000);
+    //N = - .
+    blinkLong();
+    blinkShort();
+    delay(1000);
+    //E = .
+    blinkShort();
+    delay(1000);
+    
+    //End of Loop break.
+    delay(3000);
+}
