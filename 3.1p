@@ -1,0 +1,11 @@
+void setup() {
+}
+
+void loop() {
+	delay(10000);
+
+	int moist = analogRead(A0);
+
+  Particle.publish("moist", String(moist), PRIVATE);
+    
+}
