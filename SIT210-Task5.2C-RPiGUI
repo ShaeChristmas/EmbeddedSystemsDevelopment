@@ -1,0 +1,65 @@
+from tkinter import *
+import tkinter.font as TkF
+from gpiozero import LED
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+
+#hardware defs#
+led1 = LED(4)
+led2 = LED(14)
+led3 = LED(15)
+                       
+#gui defs#
+win = Tk()
+win.title("LED Toggle")
+myFont = TkF.Font(family = 'Helvetica', size = 12, weight = "bold")
+state1 = "On"
+state2 = "On"
+state3 = "On"
+
+#event defs
+def led1Toggle():
+    if led1.is_lit:
+        led1.off()
+        state1 = "On"
+    else:
+        led1.on()
+        state1 = "Off"
+    led1Button["text"] = "Turn led 1 "+str(state1)
+        
+def led2Toggle():
+    if led2.is_lit:
+        led2.off()
+        state2 = "On"
+    else:
+        led2.on()
+        state2 = "Off"
+    led2Button["text"] = "Turn led 2 "+str(state2)
+
+def led3Toggle():
+    if led3.is_lit:
+        led3.off()
+        state3 = "On"
+    else:
+        led3.on()
+        state3 = "Off"
+    led3Button["text"] = "Turn led 3 "+str(state3)
+    
+def close():
+    GPIO.cleanup()
+    win.destroy()
+        
+        
+#widget creation#
+led1Button = Button(win, text = "Turn led 1 "+str(state1), font = myFont, command = led1Toggle, bg = 'bisque2', height = 1, width = 16)
+led1Button.grid(row = 0, column = 1)
+led2Button = Button(win, text = "Turn led 2 "+str(state2), font = myFont, command = led2Toggle, bg = 'bisque2', height = 1, width = 16)
+led2Button.grid(row = 0, column = 2)
+led3Button = Button(win, text = "Turn led 3 "+str(state3), font = myFont, command = led3Toggle, bg = 'bisque2', height = 1, width = 16)
+led3Button.grid(row = 0, column = 3)
+quitButton = Button(win, text = "Quit", font = myFont, command = close, bg = 'red', height = 1, width = 16)
+quitButton.grid(row = 1, column = 2)
+
+win.protocol("WM DELETE WINDOW", close)
+
+win.mainloop()
