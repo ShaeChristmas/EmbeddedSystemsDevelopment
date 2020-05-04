@@ -1,0 +1,81 @@
+#this code works as is, to make light work, please uncomment all code.
+
+
+
+from tkinter import *
+import tkinter.font as TkF
+#from gpiozero import LED
+#import RPi.GPIO as GPIO
+#GPIO.setmode(GPIO.BCM)
+
+#led = LED(4)
+
+MORSE_CODE_DICT = { 'A':'.-', 'B':'-...', 
+                    'C':'-.-.', 'D':'-..', 'E':'.', 
+                    'F':'..-.', 'G':'--.', 'H':'....', 
+                    'I':'..', 'J':'.---', 'K':'-.-', 
+                    'L':'.-..', 'M':'--', 'N':'-.', 
+                    'O':'---', 'P':'.--.', 'Q':'--.-', 
+                    'R':'.-.', 'S':'...', 'T':'-', 
+                    'U':'..-', 'V':'...-', 'W':'.--', 
+                    'X':'-..-', 'Y':'-.--', 'Z':'--..', 
+                    '1':'.----', '2':'..---', '3':'...--', 
+                    '4':'....-', '5':'.....', '6':'-....', 
+                    '7':'--...', '8':'---..', '9':'----.', 
+                    '0':'-----', ', ':'--..--', '.':'.-.-.-', 
+                    '?':'..--..', '/':'-..-.', '-':'-....-', 
+                    '(':'-.--.', ')':'-.--.-'} 
+
+win = Tk()
+win.title("LED Toggle")
+myFont = TkF.Font(family = 'Helvetica', size = 12, weight = "bold")
+win.geometry("400x340")
+
+def callback(inputText):
+    value = inputText.get()
+    if len(value) > 12: inputText.set(value[:12])
+
+def ConvertInput():
+    output = ''
+    value = inputBox.get()
+    value = value.upper()
+    for letter in value:
+        if letter != ' ':
+            output += MORSE_CODE_DICT[letter] + ' '
+        else:
+            output += ' '
+    outputLabel.config(text = 'Output: '+output)
+    outputLabel.pack()
+
+    #morsePrint(output)
+
+#def morsePrint(text):
+#    for char in text:
+#        if char = '.':
+#            led.on()
+#            time.sleep(0.25)
+#            led.off()
+#        elif char = '-':
+#            led.on()
+#            time.sleep(0.5)
+#            led.off()
+#        elif char = ' ':
+#            time.sleep(0.75)
+#    time.sleep(0.25)
+
+
+introLabel = Label(win, text = "Input 12 characters to convert to Binary").pack()
+
+inputText = StringVar()
+inputText.trace('w',lambda name, index, mode, inputText = inputText: callback(inputText))
+inputBox = Entry(win, text = inputText)
+inputBox.pack()
+
+convertButton = Button(win, text = "Convert",font = myFont, height = '1', width = '12', command = ConvertInput)
+convertButton.pack()
+
+outputLabel = Label(win, text = "Convert: Output will be here!")
+outputLabel.pack()
+
+
+mainloop()
