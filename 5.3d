@@ -1,14 +1,11 @@
-#this code works as is, to make light work, please uncomment all code.
-
-
-
 from tkinter import *
+import time
 import tkinter.font as TkF
-#from gpiozero import LED
-#import RPi.GPIO as GPIO
-#GPIO.setmode(GPIO.BCM)
+from gpiozero import LED
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
 
-#led = LED(4)
+led = LED(4)
 
 MORSE_CODE_DICT = { 'A':'.-', 'B':'-...', 
                     'C':'-.-.', 'D':'-..', 'E':'.', 
@@ -44,27 +41,27 @@ def ConvertInput():
             output += MORSE_CODE_DICT[letter] + ' '
         else:
             output += ' '
+    outputMorse = StringVar()
+    outputMorse = output
     outputLabel.config(text = 'Output: '+output)
-    outputLabel.pack()
 
-    #morsePrint(output)
+    morsePrint(output)
 
-#def morsePrint(text):
-#    for char in text:
-#        if char = '.':
-#            led.on()
-#            time.sleep(0.25)
-#            led.off()
-#        elif char = '-':
-#            led.on()
-#            time.sleep(0.5)
-#            led.off()
-#        elif char = ' ':
-#            time.sleep(0.75)
-#    time.sleep(0.25)
+def morsePrint(output):
+    for x in output:
+        if x == '.':
+            led.on()
+            time.sleep(0.25)
+            led.off()
+        elif x == '-':
+            led.on()
+            time.sleep(0.5)
+            led.off()
+        else:
+            time.sleep(0.75)
+        time.sleep(0.25)
 
-
-introLabel = Label(win, text = "Input 12 characters to convert to Binary").pack()
+introLabel = Label(win, text = "Input 12 characters to convert to Morse").pack()
 
 inputText = StringVar()
 inputText.trace('w',lambda name, index, mode, inputText = inputText: callback(inputText))
@@ -78,4 +75,4 @@ outputLabel = Label(win, text = "Convert: Output will be here!")
 outputLabel.pack()
 
 
-mainloop()
+win.mainloop()
