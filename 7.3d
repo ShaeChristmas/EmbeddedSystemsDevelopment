@@ -14,11 +14,12 @@ pwm.start(perc)
 
 try:
     while 1:
-        for perc in range(0,101,5):
+        for perc in range(0,50):
             pwm.ChangeDutyCycle(perc)
             time.sleep(0.1)
             print(perc)
-        for perc in range(95,0,-5):
+        time.sleep(10)
+        for perc in range(50,0,):
             pwm.ChangeDutyCycle(perc)
             time.sleep(0.1)
             print(perc)
