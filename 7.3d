@@ -1,0 +1,29 @@
+import RPi.GPIO as GPIO
+import time
+
+LEDPIN = 12
+
+GPIO.setmode(GPIO.BOARD)
+
+GPIO.setup(LEDPIN, GPIO.OUT)
+pwm = GPIO.PWM(12, 100)
+
+perc = 0
+
+pwm.start(perc)
+
+try:
+    while 1:
+        for perc in range(0,101,5):
+            pwm.ChangeDutyCycle(perc)
+            time.sleep(0.1)
+            print(perc)
+        for perc in range(95,0,-5):
+            pwm.ChangeDutyCycle(perc)
+            time.sleep(0.1)
+            print(perc)
+except KeyboardInterrupt:
+    print("Ctl C pressed.")
+
+pwm.stop()
+GPIO.cleanup()
