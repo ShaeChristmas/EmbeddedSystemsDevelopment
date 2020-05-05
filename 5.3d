@@ -7,6 +7,7 @@ GPIO.setmode(GPIO.BCM)
 
 led = LED(4)
 
+#this dictionary was found at geeksforgeeks.org/Morse-Code-Translator-Python/
 MORSE_CODE_DICT = { 'A':'.-', 'B':'-...', 
                     'C':'-.-.', 'D':'-..', 'E':'.', 
                     'F':'..-.', 'G':'--.', 'H':'....', 
