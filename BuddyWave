@@ -1,0 +1,19 @@
+int led = D7;
+
+void onWave(const char *event, const char *data) {
+
+    for (int x = 0; x < 3; x++){
+        digitalWrite(led, HIGH);
+        delay(500);
+        digitalWrite(led, LOW);
+        delay(500);
+    }
+}
+
+void setup() {
+    pinMode(led, OUTPUT);
+    Particle.subscribe("Deakin_RIOT_SIT210_Photon_Buddy", onWave);
+}
+
+void loop() {
+}
