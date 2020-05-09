@@ -1,0 +1,27 @@
+//This uses the Particle Photon.
+
+int lightOld = analogRead(A0);
+
+void loop() {
+    delay(10000); //time between measurements.
+    
+	int lightNew = analogRead(A0); //Reads the value of the Light sensor.
+	
+	int difference = lightNew - lightOld; //Finds the difference in light levels over 10 seconds.
+
+    
+    String result = "no change"; //default value for difference.
+    //Note: if difference < |-750|, then the default value will be sent.
+    
+    if (difference > 750) {
+        result = "HIGH";  //changes result to HIGH
+    }
+    if (difference < -750) {
+        result = "LOW";   //changes result to LOW
+    }
+    
+	Particle.publish("Sunlight",result,60,PRIVATE); //Publishes result with the name Sunlight
+	
+    lightOld = lightNew; //Makes the newer measurement the older measurement, then restarts the loop.
+    
+}
