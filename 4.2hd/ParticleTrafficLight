@@ -1,0 +1,51 @@
+int ledRed = D0;
+int ledYellow = D1;
+int ledGreen = D2;
+
+bool redOn = false;
+bool yellowOn = false;
+bool greenOn = false;
+
+
+void setup() {
+    pinMode(ledRed,OUTPUT);
+    pinMode(ledYellow,OUTPUT);
+    pinMode(ledGreen,OUTPUT);
+    
+    Particle.function("trafficLight",lightToggle);
+}
+
+void loop() {
+}
+
+int lightToggle(String command) {
+    
+    if(command == "Red"){
+        if(redOn) {
+            digitalWrite(ledRed,LOW);
+            redOn = false;
+        }else{
+            digitalWrite(ledRed,HIGH);
+            redOn=true;
+        }
+    }
+    if(command == "Yellow") {
+        if(yellowOn) {
+            digitalWrite(ledYellow,LOW);
+            yellowOn = false;
+        }else{
+            digitalWrite(ledYellow,HIGH);
+            yellowOn=true;
+        }
+    }
+    if(command == "Green"){
+        if(greenOn) {
+            digitalWrite(ledGreen,LOW);
+            greenOn = false;
+        }else{
+            digitalWrite(ledGreen,HIGH);
+            greenOn=true;
+        }
+    }
+    return 0;
+}
