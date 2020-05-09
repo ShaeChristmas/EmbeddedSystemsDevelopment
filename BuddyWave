@@ -1,12 +1,13 @@
 int led = D7;
 
 void onWave(const char *event, const char *data) {
-
-    for (int x = 0; x < 3; x++){
-        digitalWrite(led, HIGH);
-        delay(500);
-        digitalWrite(led, LOW);
-        delay(500);
+    if (strcmp(data,"wave")==0) {
+        for (int x = 0; x < 3; x++){
+            digitalWrite(led, HIGH);
+            delay(500);
+            digitalWrite(led, LOW);
+            delay(500);
+        }
     }
 }
 
