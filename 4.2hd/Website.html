@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title> Light Controller </title>
+    <meta charset="UTF-8">
+    <meta name="Description" content="This is a Traffic light Controller, that controls 3 LED's connected to a Particle Photon.">
+    <meta name="author" content= "Shaine Christmas"> 
+</head>
+<body>
+    <h1>Traffic Light Controller</h1>
+    <p>Press a button to toggle its light.</p>
+    <centre>
+        <iframe width="0" height="0" style = "display:none" name="RedLightFrame" id="redinputframe"></iframe>
+        <form action="https://api.particle.io/v1/devices/22003c000a47373336323230/trafficLight?access_token=a20a2513e0735b0425c02006edb9eaf073970e8c" style = "float:left"target = "RedLightFrame" method="POST">
+            <input type="checkbox" id="Red" name = "trafficLight" value = "Red" style="display:none" checked>
+            <input type="submit" value="Toggle Red Light">
+        </form>
+        <iframe width="0" height="0" style = "display:none" name="YellowLightFrame" id="yellowinputframe"></iframe>
+        <form action="https://api.particle.io/v1/devices/22003c000a47373336323230/trafficLight?access_token=a20a2513e0735b0425c02006edb9eaf073970e8c" style = "float:left"target = "RedLightFrame" method="POST">
+            <input type="checkbox" id="Yellow" name = "trafficLight" value = "Yellow" style="display:none" checked>
+            <input type="submit" value="Toggle Yellow Light">
+        </form>
+        <iframe width="0" height="0" style = "display:none" name="GreenLightFrame" id="greeninputframe"></iframe>
+        <form action="https://api.particle.io/v1/devices/22003c000a47373336323230/trafficLight?access_token=a20a2513e0735b0425c02006edb9eaf073970e8c" style = "float:left" target = "RedLightFrame" method="POST">
+            <input type="checkbox" id="Green" name = "trafficLight" value = "Green" style="display:none" checked>
+            <input type="submit" value="Toggle Green Light">
+        </form>
+    </centre>
+</body>
+</html>
