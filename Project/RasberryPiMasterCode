@@ -1,0 +1,112 @@
+from tkinter import *
+from time import sleep
+import tkinter.font as TkF
+import smbus
+import threading
+#display list creation
+displayTemp = []
+displayTarget = []
+displayTargDec = []
+displayTargInc = []
+
+#bus creation
+bus = smbus.SMBus(1)
+maxAddr =0
+
+# Give the I2C device time to settle
+sleep(2)
+#thread creation: thread does value sending and receiving.
+class myThread(threading.Thread):
+    def __init__(self, name):
+        threading.Thread.__init__(self)
+        self.name = name
+        self.temps = []
+        self.targets = []
+    
+    #displays either a temp of an index or the Target of the index.
+    def display(name, index, target):
+        tempList = myProcess.findVal(index)
+        if (target):
+            return tempList[1]
+        else:
+            return tempList[0]
+        
+    #finds both the temp and target for an index.
+    def findVal(name, index):
+        return [name.temps[index-1],name.targets[index-1]]
+    
+    #sets target, and sends to uno
+    def setTarget(name, index, value):
+        name.targets[index-1] = value
+        bus.write_byte(index,value)
+    
+    #populates the temps and targets lists
+    def run(self):
+        global maxAddr
+        for i in range(1,10):
+            try:
+                self.temps.append(bus.read_byte(i))
+                self.targets.append(18)
+                maxAddr = i
+            except:
+                pass
+        print("run completed")
+            
+    #updates the values for the temps list.        
+    def update(name):
+        for i in range(1,10):
+            try:
+                name.temps[i-1]=int(bus.read_byte(i))
+            except:
+                pass
+            
+#------------------------END OF THREAD DEF------------------------#
+            
+#decreases the Target value and sends to Arduino
+def decrease(index):
+    tempList = myProcess.findVal(index)
+    new = int(tempList[1]) -1
+    if(new >=15):
+        myProcess.setTarget(index,new)
+
+#increase the Target value and sends to Arduino
+def increase(index):
+    tempList = myProcess.findVal(index)
+    new = int(tempList[1]) +1
+    if(new <= 35):
+        myProcess.setTarget(index,new)
+
+#updates the viewing window with Accurate meansurements
+def updateWindow():
+    myProcess.update()
+    for i in range(0,maxAddr):
+        displayTemp[i].config(text = "Temperature in Room "+str(i+1)+": "+str(myProcess.display(i,False))+u"\N{DEGREE SIGN}"+"c")
+        displayTarget[i].config(text = "Target: "+str(myProcess.display(i,True))+u"\N{DEGREE SIGN}"+"c")
+    win.after(100,updateWindow)
+
+#Start the Process
+myProcess = myThread("myProcess")
+myProcess.start()
+
+print(myProcess.display(1,False))
+
+#Window Creation
+win = Tk()
+win.title("Temp Display")
+myFont = TkF.Font(family = 'Helvetica', size = 12, weight = "bold")
+win.geometry("400x340")
+
+#initialises all window Labels/Buttons
+for i in range(0,maxAddr):
+    index = i+1
+    displayTemp.append(Label(win,text = "Temperature in Room "+str(index)+": "))
+    displayTemp[i].place(height = 25,width = 400,x=0,y=50*i+5)
+    displayTargDec.append(Button(win, text = "Decrease Target",font = myFont,height = '25',width = '150',command =lambda *args: decrease(index)).place(height= 25,width = 150,x=0,y=50*i + 25))
+    displayTarget.append(Label(win,text = "Target = ",height = '25',width = '100'))
+    displayTarget[i].place(height = '25',width = '100',x=150,y=50*i + 25)
+    displayTargInc.append(Button(win, text = "Increase Target",font = myFont,height = '25',width = '150',command =lambda *args: increase(index)).place(height= 25,width = 150,x=250,y=50*i + 25))
+    
+quitButton = Button(win, text = "Quit",font = myFont, height = '1', width = '12', command = win.destroy).place(width = 100,height=25,x=150,y=315)
+#update the window, and run mainloop
+win.after(100,updateWindow)
+win.mainloop()
