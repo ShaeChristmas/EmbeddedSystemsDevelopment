@@ -1,0 +1,40 @@
+#include <Wire.h>
+#include <dht.h>
+
+int int_temp;
+dht DHT;
+int LED = 12;
+
+void setup(){
+  Serial.begin(9600);// start serial for output
+  pinMode(LED,OUTPUT);
+  Wire.begin(1);
+  Wire.onRequest(sendData);
+  Wire.onReceive(receiveData);
+  Serial.println("I2C Ready!");
+}
+
+void sendData() {
+  Wire.write(int_temp);  
+}
+
+void receiveData(int howMany) {
+  int val = Wire.read();
+  Serial.println(val);
+
+  if (val > int_temp) {
+    digitalWrite(LED,HIGH);
+  }else{
+    digitalWrite(LED,LOW);
+  }
+
+}
+
+void loop(){
+  int chk = DHT.read11(2);
+  int_temp = int(DHT.temperature);
+  String temp = String(int_temp);
+  Serial.print("Temperature = ");
+  Serial.println(temp);
+  delay(2000);
+}
