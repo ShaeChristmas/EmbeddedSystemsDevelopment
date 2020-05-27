@@ -14,15 +14,15 @@ pwm.start(perc)
 
 try:
     while 1:
-        for perc in range(0,50):
+        for perc in range(0,100):
             pwm.ChangeDutyCycle(perc)
             time.sleep(0.1)
             print(perc)
         time.sleep(10)
-        for perc in range(50,0,):
-            pwm.ChangeDutyCycle(perc)
+        for perc in range(0,100,):
+            pwm.ChangeDutyCycle(100-perc)
             time.sleep(0.1)
-            print(perc)
+            print(100-perc)
 except KeyboardInterrupt:
     print("Ctl C pressed.")
 
