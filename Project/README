@@ -1,0 +1,25 @@
+Prototype Assembly Instructions.
+
+In order to assemble the prototype, you will need the following:
+-	Raspberry Pi (version 3 B+ was used)
+-	Arduino Uno
+-	DHT11 Temperature and Humidity Sensor (I used the three pin version)
+-	A Breadboard
+-	An LED
+-	8 Male-to-Male connection wires
+-	3 Male-to-Female connection wires
+
+Additionally, the following Libraries should be installed on each device:
+-	Raspberry Pi
+   -	Tkinter – Library to create User Interface.
+   -	Smbus – Library to deal with I2C connections.
+   -	Threading (should be installed by default)
+-	Arduino Uno
+   -	Wire.h – Library to deal with I2C connections.
+   -	Dht.h – Library to interface with Temperature sensor.
+
+To wire the system together, follow the Wiring Diagram within the Repository.
+
+After wiring the system together and installing all of the relevant libraries for each system, 
+load in the program code on each system, and then run the Arduino code first. 
+After about 10 seconds, then run the Raspberry Pi program and the User Interface should pop up.
